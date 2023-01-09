@@ -1,23 +1,10 @@
 import React from 'react'
+import { Stage, Sprite } from '@inlet/react-pixi'
 
-const App = () => {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  )
-}
+const App = () => (
+  <Stage width={500} height={500}>
+    <Sprite image="./logo192.png" x={100} y={100} />
+  </Stage>
+)
 
 export default App
