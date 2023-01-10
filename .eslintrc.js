@@ -66,5 +66,6 @@ module.exports = {
     'import/no-named-as-default': 'off',
     'react/display-name': 'off',
     'react/no-children-prop': 'off',
+    'react/no-unknown-property': ['error', { ignore: ['css'] }],
   },
 }

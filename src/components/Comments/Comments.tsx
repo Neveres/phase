@@ -1,23 +1,24 @@
+/** @jsxImportSource @emotion/react */
 import React from 'react'
 import { CommentOutlined } from '@ant-design/icons'
+import { commentsContainer } from './styles'
 
 interface IComments {
   commentGroups: Phase.CommentGroups
-  setCommentGroupID: React.Dispatch<React.SetStateAction<string>>
+  setCommentGroupIDAndOpenModal: (newCommentGroupID: string) => void
 }
 
 const Comments: React.FC<IComments> = ({
   commentGroups,
-  setCommentGroupID,
+  setCommentGroupIDAndOpenModal,
 }) => {
   return (
-    <div>
+    <div css={commentsContainer}>
       {Object.values(commentGroups).map(({ uuid, coordinate }) => (
         <CommentOutlined
           key={uuid}
-          onClick={setCommentGroupID.bind(null, uuid)}
+          onClick={setCommentGroupIDAndOpenModal.bind(null, uuid)}
           style={{
-            position: 'absolute',
             left: `${coordinate[0]}px`,
             top: `${coordinate[1]}px`,
           }}
