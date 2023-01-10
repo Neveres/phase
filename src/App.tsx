@@ -1,10 +1,14 @@
 import React, { useState, useCallback } from 'react'
-import { Modal } from 'antd'
+import { Modal, Input } from 'antd'
 import { ReactPixiStage } from 'src/components'
+import { useComment } from 'src/hooks'
 
+const USER_NAME = 'user'
 const App = () => {
   const [coordinate, setCoordinate] = useState([] as number[])
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [message, setMessage] = useState('')
+  const { comments, addComment } = useComment()
 
   const openModal = useCallback(() => {
     setIsModalOpen(true)
@@ -21,19 +25,46 @@ const App = () => {
     },
     [openModal],
   )
-  console.log(coordinate)
+
+  const clearMessage = useCallback(() => {
+    setMessage('')
+  }, [])
+
+  const onOk = useCallback(() => {
+    closeModal()
+
+    if (message) {
+      addComment({
+        name: USER_NAME,
+        message,
+        coordinate,
+      })
+      clearMessage()
+    }
+  }, [addComment, clearMessage, closeModal, coordinate, message])
+
+  const onCancel = useCallback(() => {
+    closeModal()
+    clearMessage()
+  }, [clearMessage, closeModal])
+
+  const onChangeMessage = useCallback(
+    ({ target: { value } }: React.ChangeEvent<HTMLInputElement>) => {
+      setMessage(value)
+    },
+    [],
+  )
+
   return (
     <>
       <ReactPixiStage setCoordinate={openModalAndSetCoordinate} />
       <Modal
         title="Add comments"
         open={isModalOpen}
-        onOk={closeModal}
-        onCancel={closeModal}
+        onOk={onOk}
+        onCancel={onCancel}
       >
-        <p>some contents...</p>
-        <p>some contents...</p>
-        <p>some contents...</p>
+        <Input value={message} onChange={onChangeMessage} />
       </Modal>
     </>
   )
