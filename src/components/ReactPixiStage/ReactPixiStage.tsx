@@ -14,6 +14,9 @@ const ReactPixiStage: React.FC<IReactPixiStage> = ({ setCoordinate }) => (
     onClick={({ pageX, pageY }) => {
       setCoordinate([pageX, pageY])
     }}
+    options={{
+      backgroundAlpha: 0,
+    }}
   >
     <Sprite image={rabbit} interactive={true} width={SIZE} height={SIZE} />
     <Sprite
