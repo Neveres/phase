@@ -27,6 +27,7 @@ export const useCommentGroups = () => {
       comment: Phase.Comment | undefined
     }) {
       const newCommentGroups = { ...commentGroups }
+      console.log(newCommentGroups, this.commentGroupID)
       newCommentGroups[this.commentGroupID].isResolved = isResolved
       if (comment) {
         newCommentGroups[this.commentGroupID].comments.push(comment)
