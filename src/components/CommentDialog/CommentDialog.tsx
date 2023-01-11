@@ -1,7 +1,8 @@
 /** @jsxImportSource @emotion/react */
 import React, { useState, useCallback, useMemo } from 'react'
-import { Modal, Input } from 'antd'
-import { commentsContainer } from './styles'
+import { Modal, Input, Dropdown, Switch } from 'antd'
+import { DeleteOutlined } from '@ant-design/icons'
+import { commentsContainer, headerContainer } from './styles'
 
 interface ICommentDialog {
   open: boolean
@@ -103,8 +104,44 @@ const CommentDialog: React.FC<ICommentDialog> = ({
     [comments, message, name, onChangeMessage, onChangeName, uuid],
   )
 
+  const Header = useMemo(() => {
+    const items = [
+      {
+        key: '1',
+        label: (
+          <div>
+            <DeleteOutlined style={{ marginRight: '5px' }} />
+            Delete
+          </div>
+        ),
+      },
+    ]
+
+    if (uuid) {
+      return (
+        <div css={headerContainer}>
+          <div>
+            <Switch />
+            <span>Resolved</span>
+          </div>
+          <Dropdown menu={{ items }}>
+            <div onClick={(e) => e.preventDefault()}>Options</div>
+          </Dropdown>
+        </div>
+      )
+    } else {
+      return 'Add comments'
+    }
+  }, [uuid])
+
   return (
-    <Modal title="Add comments" open={open} onOk={onOk} onCancel={onCancel}>
+    <Modal
+      title={Header}
+      open={open}
+      onOk={onOk}
+      onCancel={onCancel}
+      closable={false}
+    >
       {ModalContent}
     </Modal>
   )
