@@ -5,19 +5,19 @@ import { commentsContainer } from './styles'
 
 interface ICommentEntries {
   commentGroups: Phase.CommentGroups
-  setCommentGroupIDAndOpenModal: (newCommentGroupID: string) => void
+  openCommentEntry: (newCommentGroupID: string) => void
 }
 
 const CommentEntries: React.FC<ICommentEntries> = ({
   commentGroups,
-  setCommentGroupIDAndOpenModal,
+  openCommentEntry,
 }) => {
   return (
     <div css={commentsContainer}>
       {Object.values(commentGroups).map(({ uuid, coordinate }) => (
         <CommentOutlined
           key={uuid}
-          onClick={setCommentGroupIDAndOpenModal.bind(null, uuid)}
+          onClick={openCommentEntry.bind(null, uuid)}
           style={{
             left: `${coordinate[0]}px`,
             top: `${coordinate[1]}px`,
