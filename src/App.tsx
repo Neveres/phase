@@ -2,6 +2,8 @@
 import React, { useState, useCallback, useMemo } from 'react'
 import { ReactPixiStage, CommentEntries, CommentDialog } from 'src/components'
 import { useCommentGroups } from 'src/hooks'
+import rabbit from 'src/assets/rabbit.jpg'
+import dog from 'src/assets/dog.jpg'
 import { GlobalCss } from './GlobalCss'
 
 const DEFAULT_VALUE_OF_ID = ''
@@ -46,13 +48,39 @@ const App = () => {
     return groupActions
   }, [groupActions, commentGroupID, coordinate])
 
+  const sprites = [
+    {
+      x: 200,
+      y: 200,
+      anchor: 0.5,
+      image: rabbit,
+      interactive: true,
+      width: 313,
+      height: 313,
+      draggable: true,
+    },
+    {
+      x: 600,
+      y: 200,
+      image: dog,
+      interactive: true,
+      width: 313,
+      height: 313,
+      anchor: 0.5,
+      draggable: true,
+    },
+  ]
+
   return (
     <>
       <CommentEntries
         commentGroups={commentGroups}
         openCommentEntry={openCommentEntry}
       />
-      <ReactPixiStage setCoordinate={openDialogAndSetCoordinate} />
+      <ReactPixiStage
+        setCoordinate={openDialogAndSetCoordinate}
+        sprites={sprites}
+      />
       <CommentDialog
         open={isDialogOpen}
         commentGroup={commentGroups[commentGroupID]}
