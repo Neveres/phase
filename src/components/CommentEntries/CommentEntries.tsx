@@ -3,12 +3,12 @@ import React from 'react'
 import { CommentOutlined } from '@ant-design/icons'
 import { commentsContainer } from './styles'
 
-interface IComments {
+interface ICommentEntries {
   commentGroups: Phase.CommentGroups
   setCommentGroupIDAndOpenModal: (newCommentGroupID: string) => void
 }
 
-const Comments: React.FC<IComments> = ({
+const CommentEntries: React.FC<ICommentEntries> = ({
   commentGroups,
   setCommentGroupIDAndOpenModal,
 }) => {
@@ -28,4 +28,4 @@ const Comments: React.FC<IComments> = ({
   )
 }
 
-export default Comments
+export default CommentEntries

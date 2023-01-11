@@ -1,2 +1,2 @@
 export { ReactPixiStage } from './ReactPixiStage'
-export { Comments } from './Comments'
+export { CommentEntries } from './CommentEntries'

@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import React, { useState, useCallback, useMemo } from 'react'
 import { Modal, Input } from 'antd'
-import { ReactPixiStage, Comments } from 'src/components'
+import { ReactPixiStage, CommentEntries } from 'src/components'
 import { useCommentGroups } from 'src/hooks'
 import { GlobalCss, commentsContainer } from './GlobalCss'
 
@@ -137,7 +137,7 @@ const App = () => {
 
   return (
     <>
-      <Comments
+      <CommentEntries
         commentGroups={commentGroups}
         setCommentGroupIDAndOpenModal={setCommentGroupIDAndOpenModal}
       />
