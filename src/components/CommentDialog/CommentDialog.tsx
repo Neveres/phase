@@ -2,27 +2,31 @@
 import React, { useState, useCallback, useMemo } from 'react'
 import { Modal, Input, Dropdown, Switch } from 'antd'
 import { DeleteOutlined } from '@ant-design/icons'
+import { useCommentGroups } from 'src/hooks'
 import { commentsContainer, headerContainer } from './styles'
+
+type CommentGroups = ReturnType<typeof useCommentGroups>
 
 interface ICommentDialog {
   open: boolean
   commentGroup: Phase.CommentGroup
-  addComment: (comment: Phase.Comment) => void
   closeDialog: () => void
   clearCommentGroupID: () => void
+  groupActions: CommentGroups['groupActions']
 }
 
 const DEFAULT_VALUE_OF_INPUT = ''
 const CommentDialog: React.FC<ICommentDialog> = ({
   open,
-  commentGroup = { uuid: '', comments: [] },
-  addComment,
+  commentGroup = { uuid: '', comments: [], isResolved: false },
+  groupActions,
   closeDialog,
   clearCommentGroupID,
 }) => {
   const [name, setName] = useState(DEFAULT_VALUE_OF_INPUT)
   const [message, setMessage] = useState(DEFAULT_VALUE_OF_INPUT)
-  const { uuid, comments } = commentGroup
+  const { uuid, comments, isResolved } = commentGroup
+  const [isResolvedOn, setResolvedStatus] = useState(isResolved)
 
   const onChangeName = useCallback(
     ({ target: { value } }: React.ChangeEvent<HTMLInputElement>) => {
@@ -45,25 +49,42 @@ const CommentDialog: React.FC<ICommentDialog> = ({
   const onOk = useCallback(() => {
     closeDialog()
 
-    if (message) {
-      addComment({
-        name,
-        message,
-        postTime: new Date().toLocaleString('en-US', {
-          timeZone: 'Asia/Taipei',
-        }),
-      })
+    const comment = message
+      ? {
+          name,
+          message,
+          postTime: new Date().toLocaleString('en-US', {
+            timeZone: 'Asia/Taipei',
+          }),
+        }
+      : undefined
+
+    if (uuid) {
+      if (comment || isResolved !== isResolvedOn) {
+        groupActions.update({
+          isResolved: isResolvedOn,
+          comment,
+        })
+      }
+    } else {
+      groupActions.create(comment as Phase.Comment)
+    }
+
+    if (comment) {
       clearMessage()
     }
 
     clearCommentGroupID()
   }, [
-    addComment,
-    clearCommentGroupID,
-    clearMessage,
     closeDialog,
     message,
     name,
+    uuid,
+    clearCommentGroupID,
+    isResolved,
+    isResolvedOn,
+    groupActions,
+    clearMessage,
   ])
 
   const onCancel = useCallback(() => {
@@ -71,6 +92,15 @@ const CommentDialog: React.FC<ICommentDialog> = ({
     clearMessage()
     clearCommentGroupID()
   }, [clearCommentGroupID, clearMessage, closeDialog])
+
+  const onResolvedChange = useCallback((checked: boolean) => {
+    setResolvedStatus(checked)
+  }, [])
+
+  const onDelete = useCallback(() => {
+    closeDialog()
+    groupActions.delete()
+  }, [groupActions, closeDialog])
 
   const ModalContent = useMemo(
     () => (
@@ -104,35 +134,38 @@ const CommentDialog: React.FC<ICommentDialog> = ({
     [comments, message, name, onChangeMessage, onChangeName, uuid],
   )
 
-  const Header = useMemo(() => {
-    const items = [
+  const items = useMemo(
+    () => [
       {
         key: '1',
         label: (
-          <div>
+          <div onClick={onDelete}>
             <DeleteOutlined style={{ marginRight: '5px' }} />
             Delete
           </div>
         ),
       },
-    ]
+    ],
+    [onDelete],
+  )
 
+  const Header = useMemo(() => {
     if (uuid) {
       return (
         <div css={headerContainer}>
           <div>
-            <Switch />
+            <Switch checked={isResolvedOn} onChange={onResolvedChange} />
             <span>Resolved</span>
           </div>
           <Dropdown menu={{ items }}>
-            <div onClick={(e) => e.preventDefault()}>Options</div>
+            <div onClick={(event) => event.preventDefault()}>Options</div>
           </Dropdown>
         </div>
       )
     } else {
       return 'Add comments'
     }
-  }, [uuid])
+  }, [isResolvedOn, items, onResolvedChange, uuid])
 
   return (
     <Modal

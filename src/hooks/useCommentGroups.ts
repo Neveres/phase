@@ -1,29 +1,45 @@
-import { useState, useCallback } from 'react'
+import { useState } from 'react'
 import { generateUuid } from 'src/libraries'
 
 export const useCommentGroups = () => {
   const [commentGroups, setCommentGroups] = useState({} as Phase.CommentGroups)
 
-  const addComment = useCallback(
-    (uuid: string, coordinate: number[], comment: Phase.Comment) => {
+  const groupActions = {
+    commentGroupID: '',
+    coordinate: [] as number[],
+    create(comment: Phase.Comment) {
+      const uuid = generateUuid()
       const newCommentGroups = { ...commentGroups }
-
-      if (uuid) {
-        newCommentGroups[uuid].comments.push(comment)
-      } else {
-        uuid = generateUuid()
-        newCommentGroups[uuid] = {
-          comments: [comment],
-          isResolved: false,
-          coordinate,
-          uuid,
-        }
+      newCommentGroups[uuid] = {
+        comments: [comment],
+        isResolved: false,
+        coordinate: this.coordinate,
+        uuid,
       }
 
       setCommentGroups(newCommentGroups)
     },
-    [commentGroups],
-  )
+    update({
+      isResolved,
+      comment,
+    }: {
+      isResolved: boolean
+      comment: Phase.Comment | undefined
+    }) {
+      const newCommentGroups = { ...commentGroups }
+      newCommentGroups[this.commentGroupID].isResolved = isResolved
+      if (comment) {
+        newCommentGroups[this.commentGroupID].comments.push(comment)
+      }
 
-  return { commentGroups, addComment }
+      setCommentGroups(newCommentGroups)
+    },
+    delete() {
+      const newCommentGroups = { ...commentGroups }
+      delete newCommentGroups[this.commentGroupID]
+      setCommentGroups(newCommentGroups)
+    },
+  }
+
+  return { commentGroups, groupActions }
 }

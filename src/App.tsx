@@ -10,7 +10,7 @@ const App = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [commentGroupID, setCommentGroupID] = useState(DEFAULT_VALUE_OF_ID)
 
-  const { commentGroups, addComment } = useCommentGroups()
+  const { commentGroups, groupActions } = useCommentGroups()
 
   const openDialog = useCallback(() => {
     setIsDialogOpen(true)
@@ -40,10 +40,11 @@ const App = () => {
     setCommentGroupID(DEFAULT_VALUE_OF_ID)
   }, [])
 
-  const boundAddComment = useMemo(
-    () => addComment.bind(null, commentGroupID, coordinate),
-    [addComment, commentGroupID, coordinate],
-  )
+  const boundGroupActionsActions = useMemo(() => {
+    groupActions.commentGroupID = commentGroupID
+    groupActions.coordinate = coordinate
+    return groupActions
+  }, [groupActions, commentGroupID, coordinate])
 
   return (
     <>
@@ -55,9 +56,9 @@ const App = () => {
       <CommentDialog
         open={isDialogOpen}
         commentGroup={commentGroups[commentGroupID]}
-        addComment={boundAddComment}
         closeDialog={closeDialog}
         clearCommentGroupID={clearCommentGroupID}
+        groupActions={boundGroupActionsActions}
       />
 
       <GlobalCss />
