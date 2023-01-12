@@ -103,7 +103,8 @@ const CommentDialog: React.FC<ICommentDialog> = ({
   const onDelete = useCallback(() => {
     closeDialog()
     groupActions.delete()
-  }, [groupActions, closeDialog])
+    clearCommentGroupID()
+  }, [closeDialog, groupActions, clearCommentGroupID])
 
   const ModalContent = useMemo(
     () => (
@@ -126,11 +127,13 @@ const CommentDialog: React.FC<ICommentDialog> = ({
           onChange={onChangeName}
           placeholder="Name"
           style={{ marginBottom: '5px' }}
+          data-testid="name-input"
         />
         <Input
           value={message}
           onChange={onChangeMessage}
           placeholder="Message"
+          data-testid="message-input"
         />
       </>
     ),
@@ -157,7 +160,11 @@ const CommentDialog: React.FC<ICommentDialog> = ({
       return (
         <div css={headerContainer}>
           <div>
-            <Switch checked={isResolvedOn} onChange={onResolvedChange} />
+            <Switch
+              checked={isResolvedOn}
+              onChange={onResolvedChange}
+              data-testid="resolved-switch"
+            />
             <span>Resolved</span>
           </div>
           <Dropdown menu={{ items }}>
