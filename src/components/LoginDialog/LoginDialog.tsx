@@ -40,7 +40,7 @@ const LoginDialog: React.FC<ILoginDialog> = ({ open, closeLoginDialog }) => {
           name="username"
           rules={[{ required: true, message: 'Please input your username!' }]}
         >
-          <Input />
+          <Input data-testid="username-input" />
         </Form.Item>
 
         <Form.Item
@@ -48,7 +48,7 @@ const LoginDialog: React.FC<ILoginDialog> = ({ open, closeLoginDialog }) => {
           name="password"
           rules={[{ required: true, message: 'Please input your password!' }]}
         >
-          <Input.Password />
+          <Input.Password data-testid="password-input" />
         </Form.Item>
 
         <Form.Item wrapperCol={{ offset: 10, span: 16 }}>
