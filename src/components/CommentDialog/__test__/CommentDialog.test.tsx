@@ -8,12 +8,6 @@ import { storageKeys } from 'src/settings'
 
 const { USERNAME } = storageKeys
 
-jest.useFakeTimers().setSystemTime(new Date('2020-01-01'))
-jest.mock('react-dom', () => ({
-  ...jest.requireActual('react-dom'),
-  createPortal: (node: any) => node,
-}))
-
 const username = 'USERNAME'
 beforeAll(() => {
   setItem(USERNAME, username)
