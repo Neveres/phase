@@ -91,7 +91,10 @@ const CommentDialog: React.FC<ICommentDialog> = ({
     closeDialog()
     clearMessage()
     clearCommentGroupID()
-  }, [clearCommentGroupID, clearMessage, closeDialog])
+    if (isResolved !== isResolvedOn) {
+      setResolvedStatus(isResolved)
+    }
+  }, [clearCommentGroupID, clearMessage, closeDialog, isResolved, isResolvedOn])
 
   const onResolvedChange = useCallback((checked: boolean) => {
     setResolvedStatus(checked)
