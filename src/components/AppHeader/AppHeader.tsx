@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import React from 'react'
-import { Layout } from 'antd'
+import { Layout, Button } from 'antd'
 import { headerContainer } from './styles'
 
 const { Header } = Layout
@@ -12,7 +12,7 @@ interface IAppHeader {
 const AppHeader: React.FC<IAppHeader> = ({ openLoginDialog }) => {
   return (
     <Header css={headerContainer}>
-      <div onClick={openLoginDialog}>Logout</div>
+      <Button onClick={openLoginDialog}>Logout</Button>
     </Header>
   )
 }

@@ -5,11 +5,16 @@ Array [
   <header
     className="ant-layout-header css-1dwp6ke-AppHeader"
   >
-    <div
+    <button
+      className="ant-btn ant-btn-default"
+      disabled={false}
       onClick={[Function]}
+      type="button"
     >
-      Logout
-    </div>
+      <span>
+        Logout
+      </span>
+    </button>
   </header>,
   <div
     className="css-1afp8zc-CommentEntries"
