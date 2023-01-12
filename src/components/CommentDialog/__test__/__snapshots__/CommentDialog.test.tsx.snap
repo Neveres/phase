@@ -111,7 +111,7 @@ exports[`CommentDialog render testing in open status should render well while co
                 <div
                   className="comment-name"
                 >
-                  name
+                  USERNAME
                 </div>
                 <div
                   className="comment-post-time"
@@ -128,28 +128,12 @@ exports[`CommentDialog render testing in open status should render well while co
           </div>
           <input
             className="ant-input"
-            data-testid="name-input"
-            onBlur={[Function]}
-            onChange={[Function]}
-            onFocus={[Function]}
-            onKeyDown={[Function]}
-            placeholder="Name"
-            style={
-              Object {
-                "marginBottom": "5px",
-              }
-            }
-            type="text"
-            value=""
-          />
-          <input
-            className="ant-input"
             data-testid="message-input"
             onBlur={[Function]}
             onChange={[Function]}
             onFocus={[Function]}
             onKeyDown={[Function]}
-            placeholder="Message"
+            placeholder="Leave your comment"
             type="text"
             value=""
           />
@@ -221,7 +205,7 @@ exports[`CommentDialog render testing in open status should render well while no
     tabIndex={-1}
   >
     <div
-      aria-labelledby="test-id"
+      aria-labelledby={null}
       aria-modal="true"
       className="ant-modal"
       onMouseDown={[Function]}
@@ -249,35 +233,9 @@ exports[`CommentDialog render testing in open status should render well while no
         className="ant-modal-content"
       >
         <div
-          className="ant-modal-header"
-        >
-          <div
-            className="ant-modal-title"
-            id="test-id"
-          >
-            Add comments
-          </div>
-        </div>
-        <div
           className="ant-modal-body"
         >
           
-          <input
-            className="ant-input"
-            data-testid="name-input"
-            onBlur={[Function]}
-            onChange={[Function]}
-            onFocus={[Function]}
-            onKeyDown={[Function]}
-            placeholder="Name"
-            style={
-              Object {
-                "marginBottom": "5px",
-              }
-            }
-            type="text"
-            value=""
-          />
           <input
             className="ant-input"
             data-testid="message-input"
@@ -285,7 +243,7 @@ exports[`CommentDialog render testing in open status should render well while no
             onChange={[Function]}
             onFocus={[Function]}
             onKeyDown={[Function]}
-            placeholder="Message"
+            placeholder="Leave your comment"
             type="text"
             value=""
           />

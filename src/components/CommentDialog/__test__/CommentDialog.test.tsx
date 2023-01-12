@@ -3,12 +3,25 @@ import { create } from 'react-test-renderer'
 import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { CommentDialog } from 'src/components'
+import { setItem, clear } from 'src/libraries'
+import { storageKeys } from 'src/settings'
+
+const { USERNAME } = storageKeys
 
 jest.useFakeTimers().setSystemTime(new Date('2020-01-01'))
 jest.mock('react-dom', () => ({
   ...jest.requireActual('react-dom'),
   createPortal: (node: any) => node,
 }))
+
+const username = 'USERNAME'
+beforeAll(() => {
+  setItem(USERNAME, username)
+})
+
+afterAll(() => {
+  clear()
+})
 
 describe('CommentDialog', () => {
   describe('render testing', () => {
@@ -48,7 +61,7 @@ describe('CommentDialog', () => {
               uuid: 'uuid',
               comments: [
                 {
-                  name: 'name',
+                  name: username,
                   message: 'message',
                   postTime: 'postTime',
                 },
@@ -98,7 +111,7 @@ describe('CommentDialog', () => {
               uuid: 'uuid',
               comments: [
                 {
-                  name: 'name',
+                  name: username,
                   message: 'message',
                   postTime: 'postTime',
                 },
@@ -133,10 +146,6 @@ describe('CommentDialog', () => {
           />,
         )
 
-        fireEvent.change(screen.getByTestId('name-input'), {
-          target: { value: 'name' },
-        })
-
         fireEvent.change(screen.getByTestId('message-input'), {
           target: { value: 'message' },
         })
@@ -146,7 +155,7 @@ describe('CommentDialog', () => {
           expect(closeCommentDialog).toBeCalled()
           expect(groupActions.create).toBeCalledWith({
             message: 'message',
-            name: 'name',
+            name: username,
             postTime: '1/1/2020, 8:00:00 AM',
           })
           expect(clearCommentGroupID).toBeCalled()
@@ -199,7 +208,7 @@ describe('CommentDialog', () => {
               uuid: 'uuid',
               comments: [
                 {
-                  name: 'name',
+                  name: username,
                   message: 'message',
                   postTime: 'postTime',
                 },
@@ -209,10 +218,6 @@ describe('CommentDialog', () => {
             }}
           />,
         )
-
-        fireEvent.change(screen.getByTestId('name-input'), {
-          target: { value: 'name' },
-        })
 
         fireEvent.change(screen.getByTestId('message-input'), {
           target: { value: 'message' },
@@ -225,7 +230,7 @@ describe('CommentDialog', () => {
             isResolved: false,
             comment: {
               message: 'message',
-              name: 'name',
+              name: username,
               postTime: '1/1/2020, 8:00:00 AM',
             },
           })
@@ -252,7 +257,7 @@ describe('CommentDialog', () => {
               uuid: 'uuid',
               comments: [
                 {
-                  name: 'name',
+                  name: username,
                   message: 'message',
                   postTime: 'postTime',
                 },
@@ -295,7 +300,7 @@ describe('CommentDialog', () => {
               uuid: 'uuid',
               comments: [
                 {
-                  name: 'name',
+                  name: username,
                   message: 'message',
                   postTime: 'postTime',
                 },
