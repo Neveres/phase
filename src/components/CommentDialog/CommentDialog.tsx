@@ -42,41 +42,57 @@ const CommentDialog: React.FC<ICommentDialog> = ({
   const onOk = useCallback(() => {
     closeCommentDialog()
 
-    if (message) {
-      const comment = {
-        name: getItem(storageKeys.USERNAME),
-        message,
-        postTime: new Date().toLocaleString('en-US', {
-          timeZone: 'Asia/Taipei',
-        }),
-      }
+    if (isResolved) {
+      groupActions.delete()
+    } else {
+      if (message) {
+        const comment = {
+          name: getItem(storageKeys.USERNAME),
+          message,
+          postTime: new Date().toLocaleString('en-US', {
+            timeZone: 'Asia/Taipei',
+          }),
+        }
 
-      if (uuid) {
-        groupActions.update({
-          comment,
-        })
-      } else {
-        groupActions.create(comment)
-      }
+        if (uuid) {
+          groupActions.update({
+            comment,
+          })
+        } else {
+          groupActions.create(comment)
+        }
 
-      clearMessage()
+        clearMessage()
+      }
     }
 
     clearCommentGroupID()
   }, [
     closeCommentDialog,
-    message,
-    uuid,
+    isResolved,
     clearCommentGroupID,
     groupActions,
+    message,
+    uuid,
     clearMessage,
   ])
 
   const onCancel = useCallback(() => {
     closeCommentDialog()
+    if (isResolved) {
+      groupActions.update({
+        isResolved: false,
+      })
+    }
     clearMessage()
     clearCommentGroupID()
-  }, [clearCommentGroupID, clearMessage, closeCommentDialog])
+  }, [
+    clearCommentGroupID,
+    clearMessage,
+    closeCommentDialog,
+    groupActions,
+    isResolved,
+  ])
 
   const onResolvedChange = useCallback(
     (checked: boolean) => {

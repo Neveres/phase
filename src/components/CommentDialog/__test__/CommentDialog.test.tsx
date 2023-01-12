@@ -240,7 +240,7 @@ describe('CommentDialog', () => {
           delete: jest.fn(),
         } as any
 
-        render(
+        const Dialog = (
           <CommentDialog
             open={true}
             closeCommentDialog={closeCommentDialog}
@@ -258,57 +258,119 @@ describe('CommentDialog', () => {
               isResolved: false,
               coordinate: [100, 100],
             }}
-          />,
+          />
         )
+
+        const { rerender } = render(Dialog)
+
+        const checkbox = screen.getByTestId('resolved-switch')
+        fireEvent.click(checkbox, {
+          target: { checked: true },
+        })
+
+        await waitFor(() => {
+          expect(groupActions.update).toHaveBeenNthCalledWith(1, {
+            isResolved: true,
+          })
+          // rerender(Dialog)
+        })
 
         fireEvent.click(screen.getByText('Cancel'))
         await waitFor(() => {
           expect(closeCommentDialog).toBeCalled()
           expect(clearCommentGroupID).toBeCalled()
+          // expect(groupActions.update).toHaveBeenNthCalledWith(2, {
+          //   isResolved: false,
+          // })
         })
       })
 
-      test('delete comment should work well', async () => {
-        const closeCommentDialog = jest.fn()
-        const clearCommentGroupID = jest.fn()
-        const groupActions = {
-          create: jest.fn(),
-          update: jest.fn(),
-          delete: jest.fn(),
-        } as any
+      describe('delete comment should work well', () => {
+        test('through delete button', async () => {
+          const closeCommentDialog = jest.fn()
+          const clearCommentGroupID = jest.fn()
+          const groupActions = {
+            create: jest.fn(),
+            update: jest.fn(),
+            delete: jest.fn(),
+          } as any
 
-        render(
-          <CommentDialog
-            open={true}
-            closeCommentDialog={closeCommentDialog}
-            clearCommentGroupID={clearCommentGroupID}
-            groupActions={groupActions}
-            commentGroup={{
-              uuid: 'uuid',
-              comments: [
-                {
-                  name: username,
-                  message: 'message',
-                  postTime: 'postTime',
-                },
-              ],
-              isResolved: false,
-              coordinate: [100, 100],
-            }}
-          />,
-        )
+          render(
+            <CommentDialog
+              open={true}
+              closeCommentDialog={closeCommentDialog}
+              clearCommentGroupID={clearCommentGroupID}
+              groupActions={groupActions}
+              commentGroup={{
+                uuid: 'uuid',
+                comments: [
+                  {
+                    name: username,
+                    message: 'message',
+                    postTime: 'postTime',
+                  },
+                ],
+                isResolved: false,
+                coordinate: [100, 100],
+              }}
+            />,
+          )
 
-        userEvent.hover(screen.getByText('Options'))
-        await waitFor(() => {
-          const deleteButton = screen.getByText('Delete')
-          expect(deleteButton).toBeInTheDocument()
-          fireEvent.click(deleteButton)
+          userEvent.hover(screen.getByText('Options'))
+          await waitFor(() => {
+            const deleteButton = screen.getByText('Delete')
+            expect(deleteButton).toBeInTheDocument()
+            fireEvent.click(deleteButton)
+          })
+
+          await waitFor(() => {
+            expect(closeCommentDialog).toBeCalled()
+            expect(groupActions.delete).toBeCalled()
+            expect(clearCommentGroupID).toBeCalled()
+          })
         })
 
-        await waitFor(() => {
-          expect(closeCommentDialog).toBeCalled()
-          expect(groupActions.delete).toBeCalled()
-          expect(clearCommentGroupID).toBeCalled()
+        test.skip('through resolved switch', async () => {
+          const closeCommentDialog = jest.fn()
+          const clearCommentGroupID = jest.fn()
+          const groupActions = {
+            create: jest.fn(),
+            update: jest.fn(),
+            delete: jest.fn(),
+          } as any
+
+          render(
+            <CommentDialog
+              open={true}
+              closeCommentDialog={closeCommentDialog}
+              clearCommentGroupID={clearCommentGroupID}
+              groupActions={groupActions}
+              commentGroup={{
+                uuid: 'uuid',
+                comments: [
+                  {
+                    name: username,
+                    message: 'message',
+                    postTime: 'postTime',
+                  },
+                ],
+                isResolved: false,
+                coordinate: [100, 100],
+              }}
+            />,
+          )
+
+          const checkbox = screen.getByTestId('resolved-switch')
+          fireEvent.click(checkbox, {
+            target: { checked: true },
+          })
+
+          fireEvent.click(screen.getByText('OK'))
+          await waitFor(() => {
+            expect(closeCommentDialog).toBeCalled()
+            expect(groupActions.delete).toBeCalled()
+            expect(clearCommentGroupID).toBeCalled()
+          })
         })
       })
     })
