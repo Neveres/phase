@@ -1,41 +1,59 @@
 /** @jsxImportSource @emotion/react */
-import React, { useState, useCallback, useMemo } from 'react'
-import { ReactPixiStage, CommentEntries, CommentDialog } from 'src/components'
+import React, { useState, useCallback, useMemo, useEffect } from 'react'
+import {
+  ReactPixiStage,
+  CommentEntries,
+  CommentDialog,
+  AppHeader,
+} from 'src/components'
 import { useCommentGroups } from 'src/hooks'
+import { getItem } from 'src/libraries'
+import { storageKeys } from 'src/settings'
 import rabbit from 'src/assets/rabbit.jpg'
 import dog from 'src/assets/dog.jpg'
 import { GlobalCss } from './GlobalCss'
 
 const DEFAULT_VALUE_OF_ID = ''
 const App = () => {
+  const [isLoginDialogOpen, setLoginDialogStatus] = useState(
+    !!getItem(storageKeys.USERNAME),
+  )
   const [coordinate, setCoordinate] = useState([] as number[])
-  const [isDialogOpen, setIsDialogOpen] = useState(false)
+  const [isCommentDialogOpen, setCommentDialogStatus] = useState(false)
   const [commentGroupID, setCommentGroupID] = useState(DEFAULT_VALUE_OF_ID)
 
   const { commentGroups, groupActions } = useCommentGroups()
 
-  const openDialog = useCallback(() => {
-    setIsDialogOpen(true)
+  const openLoginDialog = useCallback(() => {
+    setLoginDialogStatus(true)
   }, [])
 
-  const closeDialog = useCallback(() => {
-    setIsDialogOpen(false)
+  const closeLoginDialog = useCallback(() => {
+    setLoginDialogStatus(false)
+  }, [])
+
+  const openCommentDialog = useCallback(() => {
+    setCommentDialogStatus(true)
+  }, [])
+
+  const closeCommentDialog = useCallback(() => {
+    setCommentDialogStatus(false)
   }, [])
 
   const openDialogAndSetCoordinate = useCallback(
     (newCoordinate: number[]) => {
-      openDialog()
+      openCommentDialog()
       setCoordinate(newCoordinate)
     },
-    [openDialog],
+    [openCommentDialog],
   )
 
   const openCommentEntry = useCallback(
     (newCommentGroupID: string) => {
       setCommentGroupID(newCommentGroupID)
-      openDialog()
+      openCommentDialog()
     },
-    [openDialog],
+    [openCommentDialog],
   )
 
   const clearCommentGroupID = useCallback(() => {
@@ -73,6 +91,8 @@ const App = () => {
 
   return (
     <>
+      <AppHeader openLoginDialog={openLoginDialog} />
+
       <CommentEntries
         commentGroups={commentGroups}
         openCommentEntry={openCommentEntry}
@@ -82,9 +102,9 @@ const App = () => {
         sprites={sprites}
       />
       <CommentDialog
-        open={isDialogOpen}
+        open={isCommentDialogOpen}
         commentGroup={commentGroups[commentGroupID]}
-        closeDialog={closeDialog}
+        closeCommentDialog={closeCommentDialog}
         clearCommentGroupID={clearCommentGroupID}
         groupActions={boundGroupActionsActions}
       />

@@ -10,7 +10,7 @@ type CommentGroups = ReturnType<typeof useCommentGroups>
 interface ICommentDialog {
   open: boolean
   commentGroup?: Phase.CommentGroup
-  closeDialog: () => void
+  closeCommentDialog: () => void
   clearCommentGroupID: () => void
   groupActions: CommentGroups['groupActions']
 }
@@ -20,7 +20,7 @@ const CommentDialog: React.FC<ICommentDialog> = ({
   open,
   commentGroup = { uuid: '', comments: [], isResolved: false },
   groupActions,
-  closeDialog,
+  closeCommentDialog,
   clearCommentGroupID,
 }) => {
   const [name, setName] = useState(DEFAULT_VALUE_OF_INPUT)
@@ -47,7 +47,7 @@ const CommentDialog: React.FC<ICommentDialog> = ({
   }, [])
 
   const onOk = useCallback(() => {
-    closeDialog()
+    closeCommentDialog()
 
     const comment = message
       ? {
@@ -76,7 +76,7 @@ const CommentDialog: React.FC<ICommentDialog> = ({
 
     clearCommentGroupID()
   }, [
-    closeDialog,
+    closeCommentDialog,
     message,
     name,
     uuid,
@@ -88,23 +88,29 @@ const CommentDialog: React.FC<ICommentDialog> = ({
   ])
 
   const onCancel = useCallback(() => {
-    closeDialog()
+    closeCommentDialog()
     clearMessage()
     clearCommentGroupID()
     if (isResolved !== isResolvedOn) {
       setResolvedStatus(isResolved)
     }
-  }, [clearCommentGroupID, clearMessage, closeDialog, isResolved, isResolvedOn])
+  }, [
+    clearCommentGroupID,
+    clearMessage,
+    closeCommentDialog,
+    isResolved,
+    isResolvedOn,
+  ])
 
   const onResolvedChange = useCallback((checked: boolean) => {
     setResolvedStatus(checked)
   }, [])
 
   const onDelete = useCallback(() => {
-    closeDialog()
+    closeCommentDialog()
     groupActions.delete()
     clearCommentGroupID()
-  }, [closeDialog, groupActions, clearCommentGroupID])
+  }, [closeCommentDialog, groupActions, clearCommentGroupID])
 
   const ModalContent = useMemo(
     () => (
