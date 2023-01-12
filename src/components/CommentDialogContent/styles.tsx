@@ -1,6 +1,6 @@
 import { css } from '@emotion/react'
 
-export const commentsContainer = css`
+export const previousCommentsContainer = css`
   .comment-header {
     display: flex;
     justify-content: space-between;
