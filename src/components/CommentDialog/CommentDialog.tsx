@@ -110,12 +110,14 @@ const CommentDialog: React.FC<ICommentDialog> = ({
       <>
         {uuid && (
           <div css={commentsContainer}>
-            {comments.map(({ name, message, postTime }) => (
+            {comments.map(({ name, message, postTime }, index) => (
               <div key={`${name}-${message}-${postTime}`}>
-                <div className="comment-header">
-                  <div className="comment-name">{name}</div>
-                  <div className="comment-post-time">{postTime}</div>
-                </div>
+                {comments[index - 1]?.name !== name && (
+                  <div className="comment-header">
+                    <div className="comment-name">{name}</div>
+                    <div className="comment-post-time">{postTime}</div>
+                  </div>
+                )}
                 <div className="comment-message">{message}</div>
               </div>
             ))}
