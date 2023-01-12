@@ -9,7 +9,7 @@ type CommentGroups = ReturnType<typeof useCommentGroups>
 
 interface ICommentDialog {
   open: boolean
-  commentGroup: Phase.CommentGroup
+  commentGroup?: Phase.CommentGroup
   closeDialog: () => void
   clearCommentGroupID: () => void
   groupActions: CommentGroups['groupActions']
