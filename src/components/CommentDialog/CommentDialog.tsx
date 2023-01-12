@@ -3,6 +3,8 @@ import React, { useState, useCallback, useMemo } from 'react'
 import { Modal, Input, Dropdown, Switch } from 'antd'
 import { DeleteOutlined } from '@ant-design/icons'
 import { useCommentGroups } from 'src/hooks'
+import { getItem } from 'src/libraries'
+import { storageKeys } from 'src/settings'
 import { commentsContainer, headerContainer } from './styles'
 
 type CommentGroups = ReturnType<typeof useCommentGroups>
@@ -23,17 +25,9 @@ const CommentDialog: React.FC<ICommentDialog> = ({
   closeCommentDialog,
   clearCommentGroupID,
 }) => {
-  const [name, setName] = useState(DEFAULT_VALUE_OF_INPUT)
   const [message, setMessage] = useState(DEFAULT_VALUE_OF_INPUT)
   const { uuid, comments, isResolved } = commentGroup
   const [isResolvedOn, setResolvedStatus] = useState(isResolved)
-
-  const onChangeName = useCallback(
-    ({ target: { value } }: React.ChangeEvent<HTMLInputElement>) => {
-      setName(value)
-    },
-    [],
-  )
 
   const onChangeMessage = useCallback(
     ({ target: { value } }: React.ChangeEvent<HTMLInputElement>) => {
@@ -51,7 +45,7 @@ const CommentDialog: React.FC<ICommentDialog> = ({
 
     const comment = message
       ? {
-          name,
+          name: getItem(storageKeys.USERNAME),
           message,
           postTime: new Date().toLocaleString('en-US', {
             timeZone: 'Asia/Taipei',
@@ -78,7 +72,6 @@ const CommentDialog: React.FC<ICommentDialog> = ({
   }, [
     closeCommentDialog,
     message,
-    name,
     uuid,
     clearCommentGroupID,
     isResolved,
@@ -129,21 +122,14 @@ const CommentDialog: React.FC<ICommentDialog> = ({
           </div>
         )}
         <Input
-          value={name}
-          onChange={onChangeName}
-          placeholder="Name"
-          style={{ marginBottom: '5px' }}
-          data-testid="name-input"
-        />
-        <Input
           value={message}
           onChange={onChangeMessage}
-          placeholder="Message"
+          placeholder="Leave your comment"
           data-testid="message-input"
         />
       </>
     ),
-    [comments, message, name, onChangeMessage, onChangeName, uuid],
+    [comments, message, onChangeMessage, uuid],
   )
 
   const items = useMemo(
@@ -185,7 +171,7 @@ const CommentDialog: React.FC<ICommentDialog> = ({
         </div>
       )
     } else {
-      return 'Add comments'
+      return null
     }
   }, [isResolvedOn, items, onResolvedChange, uuid])
 
