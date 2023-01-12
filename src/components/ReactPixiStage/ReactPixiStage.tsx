@@ -12,12 +12,12 @@ interface ISprite extends _ReactPixi.ISprite {
 }
 
 interface IReactPixiStage {
-  sprites: ISprite[]
+  sprites?: ISprite[]
   setCoordinate: (newCoordinate: number[]) => void
 }
 
 const ReactPixiStage: React.FC<IReactPixiStage> = ({
-  sprites,
+  sprites = [],
   setCoordinate,
 }) => {
   const [isDraggedBefore, setDraggedStatus] = useState(false)
@@ -60,6 +60,7 @@ const ReactPixiStage: React.FC<IReactPixiStage> = ({
         }
       },
     }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [],
   )
 
@@ -87,8 +88,8 @@ const ReactPixiStage: React.FC<IReactPixiStage> = ({
 
   return (
     <Stage
-      width={window.screen.width}
-      height={window.screen.height}
+      width={window.innerWidth}
+      height={window.innerHeight}
       onClick={onClickStage}
       options={{
         backgroundAlpha: 0,
