@@ -1,9 +1,10 @@
 import { useState } from 'react'
 import { generateUuid, setItem, getItem } from 'src/libraries'
+import { storageKeys } from 'src/settings'
 
-const KEY_OF_COMMENT_GROUPS = 'commentGroups'
+const { COMMENT_GROUPS } = storageKeys
 export const useCommentGroups = () => {
-  const initialValue = getItem(KEY_OF_COMMENT_GROUPS, true) || {}
+  const initialValue = getItem(COMMENT_GROUPS, true) || {}
   const [commentGroups, setCommentGroups] = useState(
     initialValue as Phase.CommentGroups,
   )
@@ -22,7 +23,7 @@ export const useCommentGroups = () => {
       }
 
       setCommentGroups(newCommentGroups)
-      setItem(KEY_OF_COMMENT_GROUPS, newCommentGroups)
+      setItem(COMMENT_GROUPS, newCommentGroups)
     },
     update({
       isResolved,
@@ -38,13 +39,13 @@ export const useCommentGroups = () => {
       }
 
       setCommentGroups(newCommentGroups)
-      setItem(KEY_OF_COMMENT_GROUPS, newCommentGroups)
+      setItem(COMMENT_GROUPS, newCommentGroups)
     },
     delete() {
       const newCommentGroups = { ...commentGroups }
       delete newCommentGroups[this.commentGroupID]
       setCommentGroups(newCommentGroups)
-      setItem(KEY_OF_COMMENT_GROUPS, newCommentGroups)
+      setItem(COMMENT_GROUPS, newCommentGroups)
     },
   }
 

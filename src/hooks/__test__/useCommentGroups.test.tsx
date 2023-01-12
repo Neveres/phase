@@ -2,6 +2,7 @@ import { waitFor } from '@testing-library/react'
 import { renderHook, act } from '@testing-library/react-hooks'
 import { useCommentGroups } from 'src/hooks'
 import { clear, setItem } from 'src/libraries'
+import { storageKeys } from 'src/settings'
 
 jest.mock('src/libraries', () => ({
   ...jest.requireActual('src/libraries'),
@@ -36,7 +37,7 @@ describe('useCommentGroups', () => {
           coordinate: [55, 66],
         },
       }
-      setItem('commentGroups', groups)
+      setItem(storageKeys.COMMENT_GROUPS, groups)
 
       const {
         result: {
