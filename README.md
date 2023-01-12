@@ -16,7 +16,7 @@ Tech stacks: [React](https://reactjs.org/), [TypeScript](https://www.typescriptl
 ### A page with canvas (can use any graphics libraries like PIXI to implement)
 
 - [x] Display a static image on the canvas
-- [x] [Bonus] Canvas can zoom in/out and pan around (Note: DONT support zoom)
+- [x] [Bonus] Canvas can zoom in/out and pan around (Note: Not support zoom)
 - [x] [Bonus] Display more than one image
 
 ### Start a comment thread anywhere in the canvas
