@@ -1,23 +1,23 @@
 /** @jsxImportSource @emotion/react */
-import React, { useState, useCallback, useMemo, useEffect } from 'react'
+import React, { useState, useCallback, useMemo } from 'react'
 import {
   ReactPixiStage,
   CommentEntries,
   CommentDialog,
   AppHeader,
+  LoginDialog,
 } from 'src/components'
 import { useCommentGroups } from 'src/hooks'
-import { getItem } from 'src/libraries'
+import { getItem, removeItem } from 'src/libraries'
 import { storageKeys } from 'src/settings'
 import rabbit from 'src/assets/rabbit.jpg'
 import dog from 'src/assets/dog.jpg'
 import { GlobalCss } from './GlobalCss'
 
+const { USERNAME } = storageKeys
 const DEFAULT_VALUE_OF_ID = ''
 const App = () => {
-  const [isLoginDialogOpen, setLoginDialogStatus] = useState(
-    !!getItem(storageKeys.USERNAME),
-  )
+  const [isLoginDialogOpen, setLoginDialogStatus] = useState(!getItem(USERNAME))
   const [coordinate, setCoordinate] = useState([] as number[])
   const [isCommentDialogOpen, setCommentDialogStatus] = useState(false)
   const [commentGroupID, setCommentGroupID] = useState(DEFAULT_VALUE_OF_ID)
@@ -25,6 +25,7 @@ const App = () => {
   const { commentGroups, groupActions } = useCommentGroups()
 
   const openLoginDialog = useCallback(() => {
+    removeItem(USERNAME)
     setLoginDialogStatus(true)
   }, [])
 
@@ -109,6 +110,10 @@ const App = () => {
         groupActions={boundGroupActionsActions}
       />
 
+      <LoginDialog
+        open={isLoginDialogOpen}
+        closeLoginDialog={closeLoginDialog}
+      />
       <GlobalCss />
     </>
   )
