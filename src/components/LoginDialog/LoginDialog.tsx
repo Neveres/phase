@@ -12,17 +12,12 @@ interface ILoginDialog {
 }
 
 const LoginDialog: React.FC<ILoginDialog> = ({ open, closeLoginDialog }) => {
-  const [form] = Form.useForm()
-
   const onFinish = useCallback(
     ({ username }: { username: string }) => {
-      console.log(form.getFieldValue('Username'))
       setItem(USERNAME, username)
-      // form.setFieldsValue({ username: '', password: '' })
-      console.log(form.getFieldValue('username'))
       closeLoginDialog()
     },
-    [closeLoginDialog, form],
+    [closeLoginDialog],
   )
 
   return (
@@ -32,6 +27,7 @@ const LoginDialog: React.FC<ILoginDialog> = ({ open, closeLoginDialog }) => {
       closable={false}
       okText="Log In"
       footer={null}
+      destroyOnClose={true}
     >
       <Form
         name="basic"
