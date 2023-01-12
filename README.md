@@ -1,46 +1,57 @@
-# Getting Started with Create React App
+# Phase UI Frontend Test
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+> This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+Tech stacks: [React](https://reactjs.org/), [TypeScript](https://www.typescriptlang.org/), [ESLint](https://eslint.org/), [Ant Design](https://ant.design/), [Emotion](https://emotion.sh/docs/introduction), [PixiJS](https://pixijs.com/) and [ReactPixi](https://reactpixi.org/)
 
-In the project directory, you can run:
+## Table of Contents
 
-### `yarn start`
+- [Requirements](#requirements)
+- [Step to launch](#step-to-launch)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+<a name="requirements"></a>
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Requirements
 
-### `yarn test`
+### A page with canvas (can use any graphics libraries like PIXI to implement)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- [x] Display a static image on the canvas
+- [x] [Bonus] Canvas can zoom in/out and pan around (Note: DONT support zoom)
+- [x] [Bonus] Display more than one image
 
-### `yarn build`
+### Start a comment thread anywhere in the canvas
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- [x] Clicking anywhere on the image displayed in the canvas should add a new
+      comment marker to the canvas and open the comment dialog
+- [x] Comment markers should exist in the canvas and retain the position relative to
+      the displayed image (independent of the pan and zoom)
+- [ ] [Bonus] If comments are placed on a particular image they should be attached to
+      that image, so that if the image to be moved or removed all comments placed on
+      it should move with it.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Comment dialog:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- [x] Should be implemented outside of the canvas in React.
+- [x] Should not change scale if the canvas is zoomed in or zoomed out.
+- [x] Should have a thread of comments and a field to add a new comment.
+- [x] Can be closed
+- [x] Should have a way to resolve the thread. If the thread is resolved, the
+      corresponding marker on the canvas should be deleted as well.
+- [x] [Bonus] have ability for multiple users to leave comments in any thread (user
+      authentication is not required)
 
-### `yarn eject`
+### Comments:
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+- [x] Should display it’s content
+- [x] Display the time it was posted at
+- [x] Display the username who wrote the comment
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+<a name="step-to-launch"></a>
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## Step to launch
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+```bash
+$ yarn start
+```
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+Navigate to http://localhost:3000, and you should now see app
