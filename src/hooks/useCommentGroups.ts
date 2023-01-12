@@ -29,11 +29,15 @@ export const useCommentGroups = () => {
       isResolved,
       comment,
     }: {
-      isResolved: boolean
-      comment: Phase.Comment | undefined
+      isResolved?: boolean
+      comment?: Phase.Comment
     }) {
       const newCommentGroups = { ...commentGroups }
-      newCommentGroups[this.commentGroupID].isResolved = isResolved
+
+      if (typeof isResolved !== 'undefined') {
+        newCommentGroups[this.commentGroupID].isResolved = isResolved
+      }
+
       if (comment) {
         newCommentGroups[this.commentGroupID].comments.push(comment)
       }

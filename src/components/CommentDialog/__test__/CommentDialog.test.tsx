@@ -221,7 +221,6 @@ describe('CommentDialog', () => {
         await waitFor(() => {
           expect(closeCommentDialog).toBeCalled()
           expect(groupActions.update).toBeCalledWith({
-            isResolved: false,
             comment: {
               message: 'message',
               name: username,
@@ -261,12 +260,6 @@ describe('CommentDialog', () => {
             }}
           />,
         )
-
-        const checkbox = screen.getByTestId('resolved-switch')
-        fireEvent.click(checkbox, {
-          target: { checked: true },
-        })
-        expect(checkbox).toBeChecked()
 
         fireEvent.click(screen.getByText('Cancel'))
         await waitFor(() => {

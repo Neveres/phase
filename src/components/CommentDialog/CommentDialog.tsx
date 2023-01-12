@@ -27,7 +27,6 @@ const CommentDialog: React.FC<ICommentDialog> = ({
 }) => {
   const [message, setMessage] = useState(DEFAULT_VALUE_OF_INPUT)
   const { uuid, comments, isResolved } = commentGroup
-  const [isResolvedOn, setResolvedStatus] = useState(isResolved)
 
   const onChangeMessage = useCallback(
     ({ target: { value } }: React.ChangeEvent<HTMLInputElement>) => {
@@ -43,28 +42,23 @@ const CommentDialog: React.FC<ICommentDialog> = ({
   const onOk = useCallback(() => {
     closeCommentDialog()
 
-    const comment = message
-      ? {
-          name: getItem(storageKeys.USERNAME),
-          message,
-          postTime: new Date().toLocaleString('en-US', {
-            timeZone: 'Asia/Taipei',
-          }),
-        }
-      : undefined
+    if (message) {
+      const comment = {
+        name: getItem(storageKeys.USERNAME),
+        message,
+        postTime: new Date().toLocaleString('en-US', {
+          timeZone: 'Asia/Taipei',
+        }),
+      }
 
-    if (uuid) {
-      if (comment || isResolved !== isResolvedOn) {
+      if (uuid) {
         groupActions.update({
-          isResolved: isResolvedOn,
           comment,
         })
+      } else {
+        groupActions.create(comment)
       }
-    } else {
-      groupActions.create(comment as Phase.Comment)
-    }
 
-    if (comment) {
       clearMessage()
     }
 
@@ -74,8 +68,6 @@ const CommentDialog: React.FC<ICommentDialog> = ({
     message,
     uuid,
     clearCommentGroupID,
-    isResolved,
-    isResolvedOn,
     groupActions,
     clearMessage,
   ])
@@ -84,20 +76,16 @@ const CommentDialog: React.FC<ICommentDialog> = ({
     closeCommentDialog()
     clearMessage()
     clearCommentGroupID()
-    if (isResolved !== isResolvedOn) {
-      setResolvedStatus(isResolved)
-    }
-  }, [
-    clearCommentGroupID,
-    clearMessage,
-    closeCommentDialog,
-    isResolved,
-    isResolvedOn,
-  ])
+  }, [clearCommentGroupID, clearMessage, closeCommentDialog])
 
-  const onResolvedChange = useCallback((checked: boolean) => {
-    setResolvedStatus(checked)
-  }, [])
+  const onResolvedChange = useCallback(
+    (checked: boolean) => {
+      groupActions.update({
+        isResolved: checked,
+      })
+    },
+    [groupActions],
+  )
 
   const onDelete = useCallback(() => {
     closeCommentDialog()
@@ -155,7 +143,7 @@ const CommentDialog: React.FC<ICommentDialog> = ({
         <div css={headerContainer}>
           <div>
             <Switch
-              checked={isResolvedOn}
+              checked={isResolved}
               onChange={onResolvedChange}
               data-testid="resolved-switch"
             />
@@ -175,7 +163,7 @@ const CommentDialog: React.FC<ICommentDialog> = ({
     } else {
       return null
     }
-  }, [isResolvedOn, items, onResolvedChange, uuid])
+  }, [isResolved, items, onResolvedChange, uuid])
 
   return (
     <Modal
