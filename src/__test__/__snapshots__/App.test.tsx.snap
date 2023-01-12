@@ -2,6 +2,15 @@
 
 exports[`App should render well 1`] = `
 Array [
+  <header
+    className="ant-layout-header css-1dwp6ke-AppHeader"
+  >
+    <div
+      onClick={[Function]}
+    >
+      Logout
+    </div>
+  </header>,
   <div
     className="css-1afp8zc-CommentEntries"
   />,
