@@ -168,7 +168,13 @@ const CommentDialog: React.FC<ICommentDialog> = ({
             <span>Resolved</span>
           </div>
           <Dropdown menu={{ items }}>
-            <div onClick={(event) => event.preventDefault()}>Options</div>
+            <div
+              onClick={
+                /* istanbul ignore next */ (event) => event.preventDefault()
+              }
+            >
+              Options
+            </div>
           </Dropdown>
         </div>
       )
