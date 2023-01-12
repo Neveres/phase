@@ -21,11 +21,7 @@ describe('useCommentGroups', () => {
   describe('groupActions', () => {
     test('create should work well', async () => {
       const { result } = renderHook(useCommentGroups)
-      const {
-        current: { commentGroups, groupActions },
-      } = result
-
-      expect(commentGroups).toStrictEqual({})
+      expect(result.current.commentGroups).toStrictEqual({})
 
       const comment = {
         name: 'name',
@@ -34,7 +30,7 @@ describe('useCommentGroups', () => {
       }
 
       act(() => {
-        groupActions.create(comment)
+        result.current.groupActions.create(comment)
       })
 
       await waitFor(() => {
@@ -49,13 +45,9 @@ describe('useCommentGroups', () => {
       })
     })
 
-    test.skip('update should work well', async () => {
+    test('update should work well', async () => {
       const { result } = renderHook(useCommentGroups)
-      const {
-        current: { commentGroups, groupActions },
-      } = result
-
-      expect(commentGroups).toStrictEqual({})
+      expect(result.current.commentGroups).toStrictEqual({})
 
       const comment = {
         name: 'name',
@@ -63,7 +55,7 @@ describe('useCommentGroups', () => {
         postTime: 'postTime',
       }
       act(() => {
-        groupActions.create(comment)
+        result.current.groupActions.create(comment)
       })
 
       await waitFor(() => {
@@ -77,10 +69,10 @@ describe('useCommentGroups', () => {
         })
       })
 
-      groupActions.commentGroupID = 'uuid'
+      result.current.groupActions.commentGroupID = 'uuid'
 
       act(() => {
-        groupActions.update({ isResolved: false, comment })
+        result.current.groupActions.update({ isResolved: false, comment })
       })
 
       await waitFor(() => {
@@ -92,6 +84,42 @@ describe('useCommentGroups', () => {
             uuid: 'uuid',
           },
         })
+      })
+    })
+
+    test('delete should work well', async () => {
+      const { result } = renderHook(useCommentGroups)
+      expect(result.current.commentGroups).toStrictEqual({})
+
+      const comment = {
+        name: 'name',
+        message: 'message',
+        postTime: 'postTime',
+      }
+
+      act(() => {
+        result.current.groupActions.create(comment)
+      })
+
+      await waitFor(() => {
+        expect(result.current.commentGroups).toStrictEqual({
+          uuid: {
+            comments: [comment],
+            coordinate: [],
+            isResolved: false,
+            uuid: 'uuid',
+          },
+        })
+      })
+
+      result.current.groupActions.commentGroupID = 'uuid'
+
+      act(() => {
+        result.current.groupActions.delete()
+      })
+
+      await waitFor(() => {
+        expect(result.current.commentGroups).toStrictEqual({})
       })
     })
   })
