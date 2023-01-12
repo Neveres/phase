@@ -1,21 +1,51 @@
 import { waitFor } from '@testing-library/react'
 import { renderHook, act } from '@testing-library/react-hooks'
 import { useCommentGroups } from 'src/hooks'
+import { clear, setItem } from 'src/libraries'
 
 jest.mock('src/libraries', () => ({
   ...jest.requireActual('src/libraries'),
   generateUuid: () => 'uuid',
 }))
 
-describe('useCommentGroups', () => {
-  test('default value of commentGroups should be {}', async () => {
-    const {
-      result: {
-        current: { commentGroups },
-      },
-    } = renderHook(useCommentGroups)
+beforeAll(() => {
+  clear()
+})
 
-    expect(commentGroups).toStrictEqual({})
+afterEach(() => {
+  clear()
+})
+
+describe('useCommentGroups', () => {
+  describe('default value', () => {
+    test('should be {} if client storage has no data', () => {
+      const {
+        result: {
+          current: { commentGroups },
+        },
+      } = renderHook(useCommentGroups)
+
+      expect(commentGroups).toStrictEqual({})
+    })
+
+    test('should be the data from client storage', () => {
+      const groups = {
+        uuid: {
+          isResolved: false,
+          comments: [],
+          coordinate: [55, 66],
+        },
+      }
+      setItem('commentGroups', groups)
+
+      const {
+        result: {
+          current: { commentGroups },
+        },
+      } = renderHook(useCommentGroups)
+
+      expect(commentGroups).toStrictEqual(groups)
+    })
   })
 
   describe('groupActions', () => {
