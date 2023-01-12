@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ReactPixiStage should render well with sprites 1`] = `
+<canvas
+  onClick={[Function]}
+/>
+`;
+
+exports[`ReactPixiStage should render well without sprites 1`] = `
+<canvas
+  onClick={[Function]}
+/>
+`;
