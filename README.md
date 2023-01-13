@@ -6,8 +6,15 @@ Tech stacks: [React](https://reactjs.org/), [TypeScript](https://www.typescriptl
 
 ## Table of Contents
 
+- [Demo site](#demo-site)
 - [Requirements](#requirements)
 - [Step to launch](#step-to-launch)
+
+<a name="demo-site"></a>
+
+## Demo site
+
+Navigate to [https://phase-6e7b7.web.app/](https://phase-6e7b7.web.app/) to see app
 
 <a name="requirements"></a>
 
