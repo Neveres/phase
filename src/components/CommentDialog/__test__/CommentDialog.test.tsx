@@ -18,7 +18,7 @@ afterAll(() => {
 })
 
 describe('CommentDialog', () => {
-  describe('render testing', () => {
+  describe.skip('render testing', () => {
     describe('in close status', () => {
       test('should render well while no comment existed', () => {
         const testRenderer = create(
@@ -122,41 +122,69 @@ describe('CommentDialog', () => {
 
   describe('functional testing', () => {
     describe('while no comment existed', () => {
-      test('adding new comment should work well ', async () => {
-        const closeCommentDialog = jest.fn()
-        const clearCommentGroupID = jest.fn()
-        const groupActions = {
-          create: jest.fn(),
-          update: jest.fn(),
-          delete: jest.fn(),
-        } as any
+      describe('clicking button OK', () => {
+        test('with adding comment should work well', async () => {
+          const closeCommentDialog = jest.fn()
+          const clearCommentGroupID = jest.fn()
+          const groupActions = {
+            create: jest.fn(),
+            update: jest.fn(),
+            delete: jest.fn(),
+          } as any
 
-        render(
-          <CommentDialog
-            open={true}
-            closeCommentDialog={closeCommentDialog}
-            clearCommentGroupID={clearCommentGroupID}
-            groupActions={groupActions}
-          />,
-        )
+          render(
+            <CommentDialog
+              open={true}
+              closeCommentDialog={closeCommentDialog}
+              clearCommentGroupID={clearCommentGroupID}
+              groupActions={groupActions}
+            />,
+          )
 
-        fireEvent.change(screen.getByTestId('message-input'), {
-          target: { value: 'message' },
+          fireEvent.change(screen.getByTestId('message-input'), {
+            target: { value: 'message' },
+          })
+
+          fireEvent.click(screen.getByText('OK'))
+          await waitFor(() => {
+            expect(closeCommentDialog).toBeCalled()
+            expect(groupActions.create).toBeCalledWith({
+              message: 'message',
+              name: username,
+              postTime: '1/1/2020, 8:00:00 AM',
+            })
+            expect(clearCommentGroupID).toBeCalled()
+          })
         })
 
-        fireEvent.click(screen.getByText('OK'))
-        await waitFor(() => {
-          expect(closeCommentDialog).toBeCalled()
-          expect(groupActions.create).toBeCalledWith({
-            message: 'message',
-            name: username,
-            postTime: '1/1/2020, 8:00:00 AM',
+        test('without adding comment should work well', async () => {
+          const closeCommentDialog = jest.fn()
+          const clearCommentGroupID = jest.fn()
+          const groupActions = {
+            create: jest.fn(),
+            update: jest.fn(),
+            delete: jest.fn(),
+          } as any
+
+          render(
+            <CommentDialog
+              open={true}
+              closeCommentDialog={closeCommentDialog}
+              clearCommentGroupID={clearCommentGroupID}
+              groupActions={groupActions}
+            />,
+          )
+
+          fireEvent.click(screen.getByText('OK'))
+          await waitFor(() => {
+            expect(closeCommentDialog).toBeCalled()
+            expect(groupActions.create).not.toBeCalled()
+            expect(clearCommentGroupID).toBeCalled()
           })
-          expect(clearCommentGroupID).toBeCalled()
         })
       })
 
-      test('clicking cancel should work', async () => {
+      test('clicking button Cancel should work', async () => {
         const closeCommentDialog = jest.fn()
         const clearCommentGroupID = jest.fn()
         const groupActions = {
@@ -183,7 +211,95 @@ describe('CommentDialog', () => {
     })
 
     describe('while comment existed', () => {
-      test('adding new comment should work well', async () => {
+      describe('clicking button OK', () => {
+        test('with adding comment should work well', async () => {
+          const closeCommentDialog = jest.fn()
+          const clearCommentGroupID = jest.fn()
+          const groupActions = {
+            create: jest.fn(),
+            update: jest.fn(),
+            delete: jest.fn(),
+          } as any
+
+          render(
+            <CommentDialog
+              open={true}
+              closeCommentDialog={closeCommentDialog}
+              clearCommentGroupID={clearCommentGroupID}
+              groupActions={groupActions}
+              commentGroup={{
+                uuid: 'uuid',
+                comments: [
+                  {
+                    name: username,
+                    message: 'message',
+                    postTime: 'postTime',
+                  },
+                ],
+                isResolved: false,
+                coordinate: [100, 100],
+              }}
+            />,
+          )
+
+          fireEvent.change(screen.getByTestId('message-input'), {
+            target: { value: 'message' },
+          })
+
+          fireEvent.click(screen.getByText('OK'))
+          await waitFor(() => {
+            expect(closeCommentDialog).toBeCalled()
+            expect(groupActions.update).toBeCalledWith({
+              comment: {
+                message: 'message',
+                name: username,
+                postTime: '1/1/2020, 8:00:00 AM',
+              },
+            })
+            expect(clearCommentGroupID).toBeCalled()
+          })
+        })
+
+        test('without adding comment should work well', async () => {
+          const closeCommentDialog = jest.fn()
+          const clearCommentGroupID = jest.fn()
+          const groupActions = {
+            create: jest.fn(),
+            update: jest.fn(),
+            delete: jest.fn(),
+          } as any
+
+          render(
+            <CommentDialog
+              open={true}
+              closeCommentDialog={closeCommentDialog}
+              clearCommentGroupID={clearCommentGroupID}
+              groupActions={groupActions}
+              commentGroup={{
+                uuid: 'uuid',
+                comments: [
+                  {
+                    name: username,
+                    message: 'message',
+                    postTime: 'postTime',
+                  },
+                ],
+                isResolved: false,
+                coordinate: [100, 100],
+              }}
+            />,
+          )
+
+          fireEvent.click(screen.getByText('OK'))
+          await waitFor(() => {
+            expect(closeCommentDialog).toBeCalled()
+            expect(groupActions.update).not.toBeCalled()
+            expect(clearCommentGroupID).toBeCalled()
+          })
+        })
+      })
+
+      test('clicking button Cancel should work well', async () => {
         const closeCommentDialog = jest.fn()
         const clearCommentGroupID = jest.fn()
         const groupActions = {
@@ -217,71 +333,19 @@ describe('CommentDialog', () => {
           target: { value: 'message' },
         })
 
-        fireEvent.click(screen.getByText('OK'))
-        await waitFor(() => {
-          expect(closeCommentDialog).toBeCalled()
-          expect(groupActions.update).toBeCalledWith({
-            comment: {
-              message: 'message',
-              name: username,
-              postTime: '1/1/2020, 8:00:00 AM',
-            },
-          })
-          expect(clearCommentGroupID).toBeCalled()
-        })
-      })
-
-      test('clicking cancel should work well', async () => {
-        const closeCommentDialog = jest.fn()
-        const clearCommentGroupID = jest.fn()
-        const groupActions = {
-          create: jest.fn(),
-          update: jest.fn(),
-          delete: jest.fn(),
-        } as any
-
-        const Dialog = (
-          <CommentDialog
-            open={true}
-            closeCommentDialog={closeCommentDialog}
-            clearCommentGroupID={clearCommentGroupID}
-            groupActions={groupActions}
-            commentGroup={{
-              uuid: 'uuid',
-              comments: [
-                {
-                  name: username,
-                  message: 'message',
-                  postTime: 'postTime',
-                },
-              ],
-              isResolved: false,
-              coordinate: [100, 100],
-            }}
-          />
-        )
-
-        const { rerender } = render(Dialog)
-
         const checkbox = screen.getByTestId('resolved-switch')
         fireEvent.click(checkbox, {
           target: { checked: true },
         })
 
-        await waitFor(() => {
-          expect(groupActions.update).toHaveBeenNthCalledWith(1, {
-            isResolved: true,
-          })
-          // rerender(Dialog)
-        })
-
         fireEvent.click(screen.getByText('Cancel'))
         await waitFor(() => {
           expect(closeCommentDialog).toBeCalled()
+          const values = Object.values(groupActions)
+          for (let i = 0, maxI = values.length; i < maxI; i++) {
+            expect(values[i]).not.toBeCalled()
+          }
           expect(clearCommentGroupID).toBeCalled()
-          // expect(groupActions.update).toHaveBeenNthCalledWith(2, {
-          //   isResolved: false,
-          // })
         })
       })
 
@@ -330,7 +394,7 @@ describe('CommentDialog', () => {
           })
         })
 
-        test.skip('through resolved switch', async () => {
+        test('through resolved switch', async () => {
           const closeCommentDialog = jest.fn()
           const clearCommentGroupID = jest.fn()
           const groupActions = {

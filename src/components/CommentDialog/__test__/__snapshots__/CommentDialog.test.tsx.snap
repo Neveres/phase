@@ -64,7 +64,7 @@ exports[`CommentDialog render testing in open status should render well while co
             id="test-id"
           >
             <div
-              className="css-rxdnkl-CommentDialog"
+              className="css-1uj4mpx-Header"
             >
               <div>
                 <button
@@ -102,7 +102,7 @@ exports[`CommentDialog render testing in open status should render well while co
           className="ant-modal-body"
         >
           <div
-            className="css-8zdk6e-CommentDialog"
+            className="css-s8pplc-Content"
           >
             <div>
               <div
@@ -205,7 +205,7 @@ exports[`CommentDialog render testing in open status should render well while no
     tabIndex={-1}
   >
     <div
-      aria-labelledby={null}
+      aria-labelledby="test-id"
       aria-modal="true"
       className="ant-modal"
       onMouseDown={[Function]}
@@ -232,6 +232,14 @@ exports[`CommentDialog render testing in open status should render well while no
       <div
         className="ant-modal-content"
       >
+        <div
+          className="ant-modal-header"
+        >
+          <div
+            className="ant-modal-title"
+            id="test-id"
+          />
+        </div>
         <div
           className="ant-modal-body"
         >
