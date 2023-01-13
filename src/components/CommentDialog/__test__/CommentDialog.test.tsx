@@ -18,7 +18,7 @@ afterAll(() => {
 })
 
 describe('CommentDialog', () => {
-  describe.skip('render testing', () => {
+  describe('render testing', () => {
     describe('in close status', () => {
       test('should render well while no comment existed', () => {
         const testRenderer = create(
