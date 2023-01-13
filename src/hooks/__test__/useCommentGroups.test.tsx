@@ -116,6 +116,21 @@ describe('useCommentGroups', () => {
           },
         })
       })
+
+      act(() => {
+        result.current.groupActions.update({})
+      })
+
+      await waitFor(() => {
+        expect(result.current.commentGroups).toStrictEqual({
+          uuid: {
+            comments: [comment, comment],
+            coordinate: [],
+            isResolved: false,
+            uuid: 'uuid',
+          },
+        })
+      })
     })
 
     test('delete should work well', async () => {
