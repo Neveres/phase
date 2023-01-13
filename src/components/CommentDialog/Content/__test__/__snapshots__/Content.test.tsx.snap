@@ -1,0 +1,87 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Content should render well uuid existed 1`] = `
+Array [
+  <div
+    className="css-s8pplc-Content"
+  >
+    <div>
+      <div
+        className="comment-header"
+      >
+        <div
+          className="comment-name"
+        >
+          name
+        </div>
+        <div
+          className="comment-post-time"
+        >
+          postTime
+        </div>
+      </div>
+      <div
+        className="comment-message"
+      >
+        message
+      </div>
+    </div>
+    <div>
+      <div
+        className="comment-message"
+      >
+        message
+      </div>
+    </div>
+    <div>
+      <div
+        className="comment-header"
+      >
+        <div
+          className="comment-name"
+        >
+          anotherName
+        </div>
+        <div
+          className="comment-post-time"
+        >
+          postTime
+        </div>
+      </div>
+      <div
+        className="comment-message"
+      >
+        message
+      </div>
+    </div>
+  </div>,
+  <input
+    className="ant-input"
+    data-testid="message-input"
+    onBlur={[Function]}
+    onChange={[Function]}
+    onFocus={[Function]}
+    onKeyDown={[Function]}
+    placeholder="Leave your comment"
+    type="text"
+    value=""
+  />,
+]
+`;
+
+exports[`Content should render well uuid not existed 1`] = `
+Array [
+  "",
+  <input
+    className="ant-input"
+    data-testid="message-input"
+    onBlur={[Function]}
+    onChange={[Function]}
+    onFocus={[Function]}
+    onKeyDown={[Function]}
+    placeholder="Leave your comment"
+    type="text"
+    value=""
+  />,
+]
+`;
