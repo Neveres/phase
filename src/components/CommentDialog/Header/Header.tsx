@@ -13,7 +13,7 @@ interface IHeader {
 
 const Header: React.FC<IHeader> = ({
   uuid,
-  isResolved = false,
+  isResolved,
   onDelete,
   switchRef,
 }) => {
