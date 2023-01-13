@@ -1,0 +1,77 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Header should render well uuid existed 1`] = `
+<div
+  className="css-1uj4mpx-Header"
+>
+  <div>
+    <button
+      aria-checked={false}
+      className="ant-switch"
+      data-testid="resolved-switch"
+      onClick={[Function]}
+      onKeyDown={[Function]}
+      role="switch"
+      type="button"
+    >
+      <div
+        className="ant-switch-handle"
+      />
+      <span
+        className="ant-switch-inner"
+      />
+    </button>
+    <span>
+      Resolved
+    </span>
+  </div>
+  <div
+    className="ant-dropdown-trigger"
+    onClick={[Function]}
+    onMouseEnter={[Function]}
+    onMouseLeave={[Function]}
+  >
+    Options
+  </div>
+</div>
+`;
+
+exports[`Header should render well uuid existed 2`] = `
+<div
+  className="css-1uj4mpx-Header"
+>
+  <div>
+    <button
+      aria-checked={true}
+      className="ant-switch ant-switch-checked"
+      data-testid="resolved-switch"
+      onClick={[Function]}
+      onKeyDown={[Function]}
+      role="switch"
+      type="button"
+    >
+      <div
+        className="ant-switch-handle"
+      />
+      <span
+        className="ant-switch-inner"
+      />
+    </button>
+    <span>
+      Resolved
+    </span>
+  </div>
+  <div
+    className="ant-dropdown-trigger"
+    onClick={[Function]}
+    onMouseEnter={[Function]}
+    onMouseLeave={[Function]}
+  >
+    Options
+  </div>
+</div>
+`;
+
+exports[`Header should render well uuid not existed 1`] = `null`;
+
+exports[`Header should render well uuid not existed 2`] = `null`;
