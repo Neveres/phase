@@ -1,7 +1,6 @@
 import React, { useCallback, useRef } from 'react'
 import { InputRef, Modal } from 'antd'
-import { useCommentGroups } from 'src/hooks'
-import { getItem } from 'src/libraries'
+import { useCommentGroups, useStorage } from 'src/hooks'
 import { storageKeys } from 'src/settings'
 import { Header } from './Header'
 import { Content } from './Content'
@@ -24,6 +23,7 @@ const CommentDialog: React.FC<ICommentDialog> = ({
   clearCommentGroupID,
 }) => {
   const { uuid, comments, isResolved } = commentGroup
+  const { get } = useStorage(storageKeys.USERNAME)
   const switchRef = useRef(null as unknown as HTMLElement)
   const inputRef = useRef(null as unknown as InputRef)
 
@@ -35,7 +35,7 @@ const CommentDialog: React.FC<ICommentDialog> = ({
       const message = inputRef.current.input?.value
       if (message) {
         const comment = {
-          name: getItem(storageKeys.USERNAME),
+          name: get(),
           message,
           postTime: new Date().toLocaleString('en-US', {
             timeZone: 'Asia/Taipei',
@@ -52,7 +52,7 @@ const CommentDialog: React.FC<ICommentDialog> = ({
     }
 
     clearCommentGroupID()
-  }, [closeCommentDialog, clearCommentGroupID, groupActions, uuid])
+  }, [closeCommentDialog, clearCommentGroupID, groupActions, get, uuid])
 
   const onCancel = useCallback(() => {
     closeCommentDialog()

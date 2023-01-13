@@ -7,17 +7,18 @@ import {
   AppHeader,
   LoginDialog,
 } from 'src/components'
-import { useCommentGroups } from 'src/hooks'
-import { getItem, removeItem } from 'src/libraries'
+import { useCommentGroups, useStorage } from 'src/hooks'
 import { storageKeys } from 'src/settings'
 import rabbit from 'src/assets/rabbit.jpg'
 import dog from 'src/assets/dog.jpg'
 import { GlobalCss } from './GlobalCss'
 
-const { USERNAME } = storageKeys
 const DEFAULT_VALUE_OF_ID = ''
 const App = () => {
-  const [isLoginDialogOpen, setLoginDialogStatus] = useState(!getItem(USERNAME))
+  const { get: getUsername, remove: removeUsername } = useStorage(
+    storageKeys.USERNAME,
+  )
+  const [isLoginDialogOpen, setLoginDialogStatus] = useState(!getUsername())
   const [coordinate, setCoordinate] = useState([] as number[])
   const [isCommentDialogOpen, setCommentDialogStatus] = useState(false)
   const [commentGroupID, setCommentGroupID] = useState(DEFAULT_VALUE_OF_ID)
@@ -25,9 +26,9 @@ const App = () => {
   const { commentGroups, groupActions } = useCommentGroups()
 
   const openLoginDialog = useCallback(() => {
-    removeItem(USERNAME)
+    removeUsername()
     setLoginDialogStatus(true)
-  }, [])
+  }, [removeUsername])
 
   const closeLoginDialog = useCallback(() => {
     setLoginDialogStatus(false)
