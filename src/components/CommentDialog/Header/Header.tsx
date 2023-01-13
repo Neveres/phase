@@ -4,14 +4,14 @@ import { Dropdown, Switch } from 'antd'
 import { DeleteOutlined } from '@ant-design/icons'
 import { headerContainer } from './styles'
 
-interface ICommentDialogHeader {
+interface IHeader {
   uuid: string
   isResolved: boolean
   onDelete: () => void
   switchRef: React.MutableRefObject<HTMLElement>
 }
 
-const CommentDialogHeader: React.FC<ICommentDialogHeader> = ({
+const Header: React.FC<IHeader> = ({
   uuid,
   isResolved = false,
   onDelete,
@@ -66,4 +66,4 @@ const CommentDialogHeader: React.FC<ICommentDialogHeader> = ({
   }
 }
 
-export default CommentDialogHeader
+export default Header

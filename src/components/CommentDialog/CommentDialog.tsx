@@ -1,9 +1,10 @@
-import React, { useCallback, useMemo, useRef } from 'react'
+import React, { useCallback, useRef } from 'react'
 import { InputRef, Modal } from 'antd'
-import { CommentDialogHeader, CommentDialogContent } from 'src/components'
 import { useCommentGroups } from 'src/hooks'
 import { getItem } from 'src/libraries'
 import { storageKeys } from 'src/settings'
+import { Header } from './Header'
+import { Content } from './Content'
 
 type CommentGroups = ReturnType<typeof useCommentGroups>
 
@@ -64,39 +65,23 @@ const CommentDialog: React.FC<ICommentDialog> = ({
     clearCommentGroupID()
   }, [closeCommentDialog, groupActions, clearCommentGroupID])
 
-  const Header = useMemo(
-    () => (
-      <CommentDialogHeader
-        uuid={uuid}
-        isResolved={isResolved}
-        onDelete={onDelete}
-        switchRef={switchRef}
-      />
-    ),
-    [isResolved, onDelete, uuid],
-  )
-
-  const Content = useMemo(
-    () => (
-      <CommentDialogContent
-        uuid={uuid}
-        comments={comments}
-        inputRef={inputRef}
-      />
-    ),
-    [comments, uuid],
-  )
-
   return (
     <Modal
-      title={Header}
+      title={
+        <Header
+          uuid={uuid}
+          isResolved={isResolved}
+          onDelete={onDelete}
+          switchRef={switchRef}
+        />
+      }
       open={open}
       onOk={onOk}
       onCancel={onCancel}
       closable={false}
       destroyOnClose={true}
     >
-      {Content}
+      <Content uuid={uuid} comments={comments} inputRef={inputRef} />
     </Modal>
   )
 }

@@ -3,17 +3,13 @@ import React, { useState, useCallback } from 'react'
 import { Input, InputRef } from 'antd'
 import { previousCommentsContainer } from './styles'
 
-interface ICommentDialog {
+interface IContent {
   uuid: string
   comments: Phase.Comment[]
   inputRef: React.Ref<InputRef>
 }
 
-const CommentDialogContent: React.FC<ICommentDialog> = ({
-  uuid,
-  comments,
-  inputRef,
-}) => {
+const Content: React.FC<IContent> = ({ uuid, comments, inputRef }) => {
   const [message, setMessage] = useState('')
 
   const onChangeMessage = useCallback(
@@ -51,4 +47,4 @@ const CommentDialogContent: React.FC<ICommentDialog> = ({
   )
 }
 
-export default CommentDialogContent
+export default Content
