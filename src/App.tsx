@@ -42,7 +42,7 @@ const App = () => {
     setCommentDialogStatus(false)
   }, [])
 
-  const openDialogAndSetCoordinate = useCallback(
+  const openCommentDialogAndSetCoordinate = useCallback(
     (newCoordinate: number[]) => {
       openCommentDialog()
       setCoordinate(newCoordinate)
@@ -100,7 +100,7 @@ const App = () => {
         openCommentEntry={openCommentEntry}
       />
       <ReactPixiStage
-        setCoordinate={openDialogAndSetCoordinate}
+        setCoordinate={openCommentDialogAndSetCoordinate}
         sprites={sprites}
       />
       <CommentDialog
